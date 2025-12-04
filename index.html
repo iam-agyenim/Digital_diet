@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Diet — Break the Habit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Home Screen -->
+    <div id="home-screen" class="screen active">
+        <div class="home-content">
+            <h1 class="title">DIGITAL DIET</h1>
+            <h2 class="subtitle">Break the Habit</h2>
+            <p class="description">A 3-minute awareness game to understand and reduce digital distraction.</p>
+            <div class="phone-silhouette">
+                <div class="phone-glow"></div>
+                <div class="phone-screen"></div>
+            </div>
+            <button type="button" id="start-btn" class="glow-button">Start Game</button>
+            <p class="privacy-note">No data saved or collected.</p>
+        </div>
+    </div>
+
+    <!-- Awareness Intro -->
+    <div id="awareness-intro" class="screen">
+        <div class="scroll-container">
+            <div class="scroll-screen active" data-screen="1">
+                <h2 class="awareness-text">We check our phones <span class="highlight">96 times</span> per day.</h2>
+                <div class="notification-bubbles"></div>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="2">
+                <h2 class="awareness-text">Most people unlock their phone <span class="highlight">without knowing why</span>.</h2>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="3">
+                <h2 class="awareness-text">Apps use <span class="highlight">dopamine loops</span>, scroll traps, and alerts to grab your attention.</h2>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="4">
+                <h2 class="awareness-text">This game will reveal how these patterns <span class="highlight">affect you</span>.</h2>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="5">
+                <h2 class="awareness-text">Ready?</h2>
+                <button id="begin-game-btn" class="glow-button large">BEGIN THE GAME</button>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-dot active"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div id="game-container" class="screen">
+        <div id="level-1" class="level-screen">
+            <div class="level-header">
+                <h2>Level 1: Notification Triage</h2>
+                <div class="timer" id="level1-timer">30</div>
+                <div class="score-display-inline">
+                    <span>Correct: <span id="correct-count">0</span></span>
+                    <span>Missed: <span id="missed-count">0</span></span>
+                </div>
+            </div>
+            <div class="triage-instructions">
+                <p class="instruction-text">Identify which notifications are <strong>Urgent</strong> vs <strong>Manipulative</strong></p>
+                <p class="instruction-subtext">Click "Urgent" for important notifications, or ignore manipulative ones</p>
+            </div>
+            <div id="notification-area"></div>
+            <div class="triage-actions" id="triage-actions" style="display: none;">
+                <button class="triage-btn urgent-btn" id="urgent-btn">✓ Urgent</button>
+                <button class="triage-btn manipulative-btn" id="manipulative-btn">✗ Manipulative</button>
+            </div>
+        </div>
+
+        <div id="level-2" class="level-screen">
+            <div class="level-header">
+                <h2>Level 2: Scroll Cataract Surgery</h2>
+                <div class="timer" id="level2-timer">30</div>
+                <div class="score-display-inline">
+                    <span>Meaningful: <span id="meaningful-count">0</span></span>
+                    <span>Bait: <span id="bait-count">0</span></span>
+                    <span>Incorrect: <span id="incorrect-count">0</span></span>
+                </div>
+            </div>
+            <div class="triage-instructions">
+                <p class="instruction-text">Scroll and identify: <strong>Meaningful Content</strong> vs <strong>Algorithmic Bait</strong></p>
+                <p class="instruction-subtext">Tap items to categorize them as you scroll</p>
+            </div>
+            <div class="feed-container" id="feed-container">
+                <!-- Feed items will be generated dynamically -->
+            </div>
+            <div class="content-actions" id="content-actions" style="display: none;">
+                <button class="content-btn meaningful-btn" id="meaningful-btn">✓ Meaningful</button>
+                <button class="content-btn bait-btn" id="bait-btn">✗ Algorithmic Bait</button>
+            </div>
+        </div>
+
+        <div id="level-3" class="level-screen">
+            <div class="level-header">
+                <h2>Level 3: Your Attention Wallet</h2>
+                <div class="activity-timer-header" id="activity-timer-header" style="display: none;">
+                    <span id="activity-timer-text">0</span>
+                </div>
+            </div>
+            <div class="attention-wallet-container">
+                <div class="wallet-display">
+                    <div class="coin-counter">
+                        <span class="coin-icon">🪙</span>
+                        <span class="coin-count" id="coin-count">10</span>
+                        <span class="coin-label">Attention Coins</span>
+                    </div>
+                </div>
+                <div class="triage-instructions">
+                    <p class="instruction-text">Your attention is finite. <strong>How will you spend it?</strong></p>
+                </div>
+                <div class="attention-actions" id="attention-actions">
+                    <button class="attention-btn quick-game-btn" id="quick-game-btn">
+                        <span class="btn-icon">🎮</span>
+                        <span class="btn-title">Quick Game</span>
+                        <span class="btn-subtitle">Instant</span>
+                        <span class="btn-cost">Costs 8 coins</span>
+                    </button>
+                    <button class="attention-btn learn-fact-btn" id="learn-fact-btn">
+                        <span class="btn-icon">📚</span>
+                        <span class="btn-title">Learn a Fact</span>
+                        <span class="btn-subtitle">15 seconds</span>
+                        <span class="btn-cost">Costs 3 coins</span>
+                    </button>
+                    <button class="attention-btn breathe-btn" id="breathe-btn">
+                        <span class="btn-icon">☁️</span>
+                        <span class="btn-title">Just Breathe</span>
+                        <span class="btn-subtitle">30 seconds</span>
+                        <span class="btn-cost">Free</span>
+                    </button>
+                </div>
+                <div class="activity-display" id="activity-display" style="display: none;">
+                    <div id="activity-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-transition" id="level-transition">
+            <div class="transition-content">
+                <p id="transition-message"></p>
+                <button class="glow-button" id="next-level-btn">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Awareness -->
+    <div id="final-awareness" class="screen">
+        <div class="scroll-container">
+            <div class="scroll-screen active" data-screen="1">
+                <h2 class="awareness-text">You've completed all three challenges.</h2>
+                <p class="awareness-subtext">Together, they reveal how your attention responds to the digital world — not in theory, but in your actual behavior.</p>
+                <p class="awareness-subtext" style="margin-top: 2rem; font-weight: 600;">Here's what your results mean:</p>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="2">
+                <h2 class="awareness-text">🔵 Level 1 — Notification Triage</h2>
+                <div class="awareness-content">
+                    <p>This level measured how well you can distinguish between what is <span class="highlight">truly urgent</span> and what is designed to manipulate your attention.</p>
+                    <p style="margin-top: 1.5rem;"><strong>Your performance reflects:</strong></p>
+                    <ul class="awareness-list">
+                        <li><strong>Correct notifications:</strong> These show your ability to detect what genuinely matters.</li>
+                        <li><strong>Missed or miscategorized notifications:</strong> These reveal how easily urgency can be faked — and how quickly your attention can be redirected.</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;">In everyday digital life, your brain makes these decisions constantly.</p>
+                    <p style="margin-top: 1rem; font-weight: 600;">This level shows whether you chose what deserved your attention…</p>
+                    <p style="font-weight: 600;">or whether the notifications chose for you.</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="3">
+                <h2 class="awareness-text">🟣 Level 2 — Scroll Cataract Surgery</h2>
+                <div class="awareness-content">
+                    <p>Here, you examined content the way a surgeon examines a lens — separating <span class="highlight">clarity from distortion</span>.</p>
+                    <p style="margin-top: 1.5rem;"><strong>Your results reveal:</strong></p>
+                    <ul class="awareness-list">
+                        <li><strong>Meaningful content selections:</strong> How well you recognized content that enriches your thinking</li>
+                        <li><strong>Bait identifications:</strong> How accurately you detected algorithmic traps</li>
+                        <li><strong>Incorrect categorizations:</strong> Where the line between value and distraction was hard to see</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;">This level shows how the feed shapes your focus:</p>
+                    <p style="margin-top: 1rem; font-weight: 600;">Do you lean toward meaning, or does bait pull you in without noticing?</p>
+                    <p style="margin-top: 1rem;">Your accuracy reflects how clearly you can "see" through the noise of infinite scroll.</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="4">
+                <h2 class="awareness-text">🟢 Level 3 — Attention Wallet</h2>
+                <div class="awareness-content">
+                    <p>This level turned your attention into a <span class="highlight">currency</span> — something limited, valuable, and spendable.</p>
+                    <p style="margin-top: 1.5rem;"><strong>Your choices reveal:</strong></p>
+                    <ul class="awareness-list">
+                        <li>What you invested in</li>
+                        <li>What you sacrificed</li>
+                        <li>What you believed was worth your time</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;"><strong>Each action taught you something:</strong></p>
+                    <ul class="awareness-list">
+                        <li><strong>Quick Game (8 coins):</strong> High cost, high stimulation, low long-term value</li>
+                        <li><strong>Learn a Fact (3 coins):</strong> Small investment, meaningful return</li>
+                        <li><strong>Just Breathe (free):</strong> A moment of peace that doesn't cost or earn coins</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem; font-weight: 600;">When your coins ran out, the level showed this truth:</p>
+                    <p style="font-weight: 600; font-size: 1.3rem; margin-top: 1rem;">Attention is finite.</p>
+                    <p style="font-weight: 600;">Your choices determine whether it grows or disappears.</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="5">
+                <h2 class="awareness-text">⭐ WHAT YOUR OVERALL PATTERN MEANS</h2>
+                <div class="awareness-content">
+                    <p>Looking across all three levels:</p>
+                    <ul class="awareness-list" style="margin-top: 1.5rem;">
+                        <li><strong>Level 1</strong> shows how susceptible you are to urgency</li>
+                        <li><strong>Level 2</strong> shows how clearly you can separate meaning from manipulation</li>
+                        <li><strong>Level 3</strong> shows how you spend attention when it feels limited</li>
+                    </ul>
+                    <p style="margin-top: 2rem;">Together, they map your digital instincts:</p>
+                    <p style="margin-top: 1rem; font-style: italic;">how you react, how you choose, and how your attention is shaped moment by moment.</p>
+                    <p style="margin-top: 2rem; font-weight: 600;">This isn't about right or wrong — it's about seeing what you normally can't see.</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="6">
+                <h2 class="awareness-text">💭 A QUESTION TO PONDER</h2>
+                <div class="awareness-content">
+                    <p style="font-size: 1.3rem; line-height: 1.8; margin-top: 2rem;">Take a moment to think about this:</p>
+                    <div style="margin-top: 2rem; padding: 2rem; background: rgba(255, 255, 255, 0.08); border: 2px solid var(--accent-white); border-radius: 10px;">
+                        <p style="font-size: 1.5rem; font-weight: 600; line-height: 1.8; text-align: center;">If your attention were real currency — something you could lose, invest, or save —</p>
+                        <p style="margin-top: 1rem; font-size: 1.5rem; font-weight: 600; line-height: 1.8; text-align: center;">would you spend it the same way you did in this game?</p>
+                    </div>
+                    <p style="margin-top: 2rem; font-style: italic; opacity: 0.8;">Think about it. No need to answer now. Just let the question sit with you.</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">Scroll down</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+            <div class="scroll-screen" data-screen="7">
+                <h2 class="awareness-text">⭐ YOUR REFLECTION</h2>
+                <div class="awareness-content">
+                    <p style="font-size: 1.2rem; line-height: 1.8; margin-top: 1rem;">Now, take a moment to write your thoughts. What did you learn about yourself? What will you change?</p>
+                    <textarea id="reflection-input" placeholder="Write your reflection here... What patterns did you notice? How will you use this awareness in your daily life?" style="width: 100%; min-height: 200px; margin-top: 2rem; padding: 1.5rem; background: rgba(0, 0, 0, 0.3); border: 2px solid var(--accent-white); border-radius: 10px; color: var(--accent-white); font-size: 1rem; font-family: inherit; line-height: 1.6; resize: vertical;"></textarea>
+                    <p style="margin-top: 2rem; font-size: 1.1rem; font-weight: 600;">Awareness is the first step.</p>
+                    <p style="margin-top: 0.5rem; font-size: 1.1rem; font-weight: 600;">The next step is yours.</p>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+                    <button id="submit-reflection-btn" class="glow-button">Submit Reflection</button>
+                    <button id="view-reflections-btn" class="glow-button" style="background: rgba(255, 255, 255, 0.1); border: 2px solid var(--accent-white);">View Reflections</button>
+                    <button id="restart-btn" class="glow-button" style="margin-top: 0;">Play Again</button>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-dot active"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+            <div class="scroll-dot"></div>
+        </div>
+    </div>
+
+    <!-- Reflections Community Page -->
+    <div id="reflections-page" class="screen">
+        <div class="reflections-container">
+            <div class="reflections-header">
+                <h2 class="reflections-title">Community Reflections</h2>
+                <p class="reflections-subtitle">Read what others have learned. Share your insights anonymously.</p>
+                <button id="back-to-game-btn" class="glow-button" style="margin-top: 1rem;">Back to Game</button>
+            </div>
+            <div id="reflections-list" class="reflections-list">
+                <!-- Reflections will be dynamically added here -->
+            </div>
+            <div id="no-reflections" class="no-reflections" style="display: none;">
+                <p>No reflections yet. Be the first to share your thoughts!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="utils.js"></script>
+    <script src="level1.js"></script>
+    <script src="level2.js"></script>
+    <script src="level3.js"></script>
+    <script src="report.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
+
